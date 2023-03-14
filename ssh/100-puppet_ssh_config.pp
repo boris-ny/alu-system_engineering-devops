@@ -1,4 +1,4 @@
 # PasswordAuthentication not required
-Host 3.80.67.1
+Host *
     IdentityFile ~/.ssh/school
     PasswordAuthentication no
