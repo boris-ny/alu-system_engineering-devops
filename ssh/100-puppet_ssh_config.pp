@@ -1,5 +1,5 @@
 # PasswordAuthentication not required
-Include /etc/ssh/ssh_config/*.conf
+include /etc/ssh/ssh_config/*.pp
 Host *
     IdentityFile ~/.ssh/school
     PasswordAuthentication no
