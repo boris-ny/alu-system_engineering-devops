@@ -57,8 +57,8 @@ Read or watch:
 
 ### man or help
 
-`scp`
-`curl`
+* `scp`
+* `curl`
 
 ## Learning Objectives
 
