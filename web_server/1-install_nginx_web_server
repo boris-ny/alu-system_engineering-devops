@@ -5,5 +5,5 @@ sudo apt upgrade -y
 sudo apt install nginx -y
 sudo ufw allow 'Nginx HTTP'
 sudo sed -i 's|/var/www/html|/usr/share/nginx/html|g' /etc/nginx/sites-available/default
-echo "<html><head><title>Test Page</title></head><body>Holberton School</body></html>" | sudo tee /usr/share/nginx/html/index.html
+echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
 sudo service nginx restart
