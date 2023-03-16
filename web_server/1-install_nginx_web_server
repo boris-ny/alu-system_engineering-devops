@@ -1,7 +1,34 @@
 #!/usr/bin/env bash
-# install nginx web server
-sudo apt update
-sudo apt install nginx -y
-sudo touch /var/www/html/index.html
-echo "Holberton School" | sudo tee /var/www/html/index.html
-sudo service nginx restart
+
+# Update the package list
+sudo apt-get update
+
+# Install nginx and automatically answer yes to any prompts
+sudo apt-get install -y nginx
+
+# Replace default Nginx configuration with custom configuration
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html;
+        server_name _;
+        location / {
+                try_files \$uri \$uri/ =404;
+        }
+        location /redirect_me {
+                return 301 https://www.youtube.com/watch?v=dQw4w9WgXcQ;
+        }
+        error_page 404 /404.html;
+        location = /404.html {
+                internal;
+        }
+}
+EOF
+
+# Create the HTML file containing the string "Holberton School"
+sudo sh -c 'echo "Holberton School" > /var/www/html/index.html'
+
+# Restart Nginx
+sudo /etc/init.d/nginx restart
