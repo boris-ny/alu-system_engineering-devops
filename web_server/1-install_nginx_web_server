@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-# Bash to script to install nginx web server
+# comment 
 sudo apt update
-sudo apt upgrade -y
 sudo apt install nginx -y
-sudo ufw allow 'Nginx HTTP'
-sudo sed -i 's|/var/www/html|/usr/share/nginx/html|g' /etc/nginx/sites-available/default
-echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
+sudo touch /var/www/html/index.html
+echo "Holberton School" | sudo tee /var/www/html/index.html
 sudo service nginx restart
