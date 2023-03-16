@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# comment 
+# install nginx web server
 sudo apt update
 sudo apt install nginx -y
 sudo touch /var/www/html/index.html
