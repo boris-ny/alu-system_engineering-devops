@@ -1,0 +1,32 @@
+#!/usr/env/bin bash
+# Update the package lists and install nginx
+sudo apt update
+sudo apt install nginx -y
+# Create Nginx configuration file
+sudo bash -c 'cat > /etc/nginx/sites-available/default' << EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    location = /redirect_me {
+        return 301  http://your-destination-url.com;
+    }
+
+    location / {
+        root /var/www/html;
+        index index.html index.htm;
+    }
+}
+EOF
+# Create a symbolic link to enable the configuration file
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+
+# Remove the default Nginx configuration file
+sudo rm -rf /etc/nginx/sites-available/default
+
+# Restart Nginx
+sudo service nginx restart
+
+
