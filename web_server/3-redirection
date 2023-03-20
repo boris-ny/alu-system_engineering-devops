@@ -1,32 +1,39 @@
 #!/usr/bin/env bash
-# Update the package lists and install nginx
+
+# Install Nginx
 sudo apt update
 sudo apt install nginx -y
-# Create Nginx configuration file
-sudo bash -c 'cat > /etc/nginx/sites-available/default' << EOF
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
 
+# Create a file for the server block configuration
+sudo touch /etc/nginx/sites-available/redirect.conf
+
+# Write the server block configuration to the file
+cat << EOF | sudo tee /etc/nginx/sites-available/redirect.conf
+server {
+    listen 80;
     server_name _;
 
+    # Redirect /redirect_me to another page with 301 status code
     location = /redirect_me {
-        return 301  http://your-destination-url.com;
+        return 301 https://www.example.com/new_page;
     }
 
+    # Serve other requests normally
     location / {
-        root /var/www/html;
+        root /usr/share/nginx/html;
         index index.html index.htm;
     }
 }
 EOF
-# Create a symbolic link to enable the configuration file
-sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
-# Remove the default Nginx configuration file
-sudo rm -rf /etc/nginx/sites-available/default
+# Enable the server block by creating a symbolic link to sites-enabled directory
+sudo ln -s /etc/nginx/sites-available/redirect.conf /etc/nginx/sites-enabled/
 
-# Restart Nginx
-sudo service nginx restart
+# Disable the default server block by removing the symbolic link from sites-enabled directory
+sudo rm /etc/nginx/sites-enabled/default
 
+# Test the Nginx configuration for syntax errors
+sudo nginx -t
 
+# Reload Nginx to apply the changes
+sudo systemctl reload nginx
