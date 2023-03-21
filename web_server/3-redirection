@@ -2,7 +2,7 @@
 #Configure your Nginx server so that /redirect_me is redirecting to another page
 sudo apt-get update -y
 sudo apt-get install -y nginx
-sudo ufw allow 'Nginx HTTP'
+#sudo ufw allow 'Nginx HTTP'
 config=\
 "server {
         listen 80 default_server;
