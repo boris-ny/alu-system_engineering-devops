@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-# Install Nginx if not already installed
-sudo apt update
-sudo apt install nginx
+# Install nginx if not already installed
+sudo apt update 
+sudo apt install nginx -y
 
-# Create a file named redirects.conf in the /nginx/example.com directory
-sudo mkdir -p /nginx/example.com
-sudo touch /nginx/example.com/redirects.conf
+# Create a file named index.html
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
 
-# Add the following content to the redirects.conf file
-# Replace example.com with your actual domain name
-# Replace new_page with your desired destination page
-echo 'location = /redirect_me {
-  return 301 $scheme:http://boris-ny.tech;
-}' | sudo tee /nginx/example.com/redirects.conf
+echo "Holberton School" > /etc/nginx/html/index.html
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /etc/nginx/html;
+    index index.html index.htm;
+    server_name _;
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}" > /etc/nginx/sites-available/default
 
-# Include the redirects.conf file in the server block of your Nginx configuration file
-# The default location of this file is /etc/nginx/sites-available/default
-sudo sed -i '/server_name/a include /nginx/example.com/redirects.conf;' /etc/nginx/sites-available/default
-
-# Reload Nginx for the changes to take effect
-sudo systemctl reload nginx
+# Restart nginx
+sudo service nginx restart
