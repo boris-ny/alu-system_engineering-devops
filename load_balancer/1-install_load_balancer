@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#Configure HAProxy to be able to accept requests on port tcp/80 and redirect them to the web servers
+sudo apt update -y
+sudo apt install haproxy -y
+config=\
+"backend my_servers
+        balance roundrobin
+        server 5494-web-01 54.226.54.247
+        server 5494-web-02 18.205.246.150
+frontend haproxy_inbound
+        bind *:80
+        default_backend my_servers
+        mode http
+"
+
+sudo chown -R "$USER":"$USER" /etc/default/haproxy
+sudo chown -R "$USER":"$USER" /etc/haproxy/haproxy.cfg
+sudo echo "ENABLED=1" >> /etc/default/haproxy
+sudo echo "$config" >> /etc/haproxy/haproxy.cfg
+sudo service haproxy start
