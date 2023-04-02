@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#Script to run nginx on docker container
+sudo apt-get update -y
+sudo apt-get install nginx -y
+first="listen\s[0-9]*?\sdefault_server"
+second="listen 80 default_server"
+start="listen\s\[::\]:[0-9]*?\sdefault_server"
+end="listen [::]:80 default_server"
+sudo sed -ri "s/$first/$second/" /etc/nginx/sites-available/default
+sudo sed -ri "s/$start/$end/" /etc/nginx/sites-available/default
+sudo sed -ri "s/$first/$second/" /etc/nginx/sites-enabled/default
+sudo sed -ri "s/$start/$end/" /etc/nginx/sites-enabled/default
+sudo service nginx restart
