@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# This script is for checking the user with 'whoami' command and user passed as argument
+sudo whoami "$1"
